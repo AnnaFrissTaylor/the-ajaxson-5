@@ -19,7 +19,7 @@ function fetchAndDisplayGif(event) {
     event.preventDefault();
 
     // get the user's input text from the DOM
-    var searchQuery = $("#tag").val(); // TODO should be e.g. "dance"
+    var searchQuery = $('#tag').val(); // TODO should be e.g. "dance"
 
     // configure a few parameters to attach to our request
     var params = {
@@ -39,10 +39,12 @@ function fetchAndDisplayGif(event) {
             console.log(response);
 
             // TODO
-            console.log(response.image_url);
 
-            //var imggif = $(data).find(image_url);
-            //document.getElementById("gif").src = imggif;
+            var giphobj = response.data.image_url;
+
+
+
+
             // 1. set the source attribute of our image to the image_url of the GIF
             // 2. hide the feedback message and display the image
         },
