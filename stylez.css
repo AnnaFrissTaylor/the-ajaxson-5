@@ -1,0 +1,24 @@
+#loader {
+    display: none;
+
+}
+.headerDisplay {
+    background-color: #1abc9c;
+    color: #ffffff;
+
+}
+
+.imgDisplay {
+    margin: 20px;
+    padding: 20px;
+}
+
+.otherDisplay {
+    background-color: lightgrey;
+
+}
+
+.secondDisplay {
+    background-color: grey;
+
+}

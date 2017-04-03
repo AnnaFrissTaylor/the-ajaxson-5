@@ -11,23 +11,16 @@ $(document).ready(function() {
  * user's search term (along with "jackson 5")
  *
  * upon receiving a response from Giphy, updates the DOM to display the new GIF
+
  */
-function fetchAndDisplayGif(event) {
-
-    // This prevents the form submission from doing what it normally does: send a request (which would cause our page to refresh).
-    // Because we will be making our own AJAX request, we dont need to send a normal request and we definitely don't want the page to refresh.
-    event.preventDefault();
-
-    // get the user's input text from the DOM
+function callAjax() {
     var searchQuery = $('#tag').val(); // TODO should be e.g. "dance"
 
-    // configure a few parameters to attach to our request
     var params = {
         api_key: "dc6zaTOxFJmzC",
         tag : "jackson 5 " + searchQuery // TODO should be e.g. "jackson 5 dance"
     };
-
-    // make an ajax request for a random GIF
+    showLoading(); // loading loader before ajax called
     $.ajax({
         url: "https://api.giphy.com/v1/gifs/random", // TODO where should this request be sent?
         data: params, // attach those extra parameters onto the request
@@ -36,13 +29,10 @@ function fetchAndDisplayGif(event) {
 
             // jQuery passes us the `response` variable, a regular javascript object created from the JSON the server gave us
             //console.log("we received a response!");
-
-        //
-        // if (.robot === 5)
-        //
-        var giphobj = response.data.image_url;
-        //     //console.log(giphobj);
-        $("#gif").attr("src",giphobj);
+            hideLoading();
+            var giphobj = response.data.image_url;
+            //     //console.log(giphobj);
+            $("#gif").attr("src",giphobj);
 
             // 1. set the source attribute of our image to the image_url of the GIF
             // 2. hide the feedback message and display the image
@@ -52,10 +42,41 @@ function fetchAndDisplayGif(event) {
             // if something went wrong, the code in here will execute instead of the success function
 
             // give the user an error message
+            hideLoading();
             $("#feedback").text("Sorry, could not load GIF. Try again!");
             setGifLoadedStatus(false);
         }
+
     });
+
+
+}
+
+function showLoading() {
+    $("#loader").css("display","block");
+}
+function hideLoading(){
+    $("#loader").css("display", "none");
+}
+function fetchAndDisplayGif(event) {
+
+    // This prevents the form submission from doing what it normally does: send a request (which would cause our page to refresh).
+    // Because we will be making our own AJAX request, we dont need to send a normal request and we definitely don't want the page to refresh.
+    event.preventDefault();
+
+    // get the user's input text from the DOM
+    // configure a few parameters to attach to our request
+
+    var robotVal = $('#robot').val();
+    if (robotVal === "5") {
+        callAjax();
+        $("#feedback").text("");
+        setGifLoadedStatus(true);
+    }
+    else {
+        $("#feedback").text("NO GIF FOR YOU!");
+        setGifLoadedStatus(false);
+    }
 
     // TODO
     // give the user a "Loading..." message while they wait
